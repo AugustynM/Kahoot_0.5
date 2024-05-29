@@ -16,9 +16,11 @@ public class GameService {
     private QuestionsClient questionsClient;
 
     private final List<GameModel> games = new ArrayList<>();
+    private int nextGameId = 0;
 
     public GameModel createGame(String name, int maxQuestions) {
-        GameModel game = new GameModel(games.size(), name, maxQuestions);
+        GameModel game = new GameModel(nextGameId, name, maxQuestions);
+        nextGameId++;
         games.add(game);
         return game;
     }
