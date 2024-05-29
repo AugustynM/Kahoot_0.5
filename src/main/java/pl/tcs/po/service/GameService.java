@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.annotation.PostConstruct;
 import pl.tcs.po.model.GameModel;
 import pl.tcs.po.model.Player;
 import pl.tcs.po.webClient.QuestionsClient;
@@ -26,7 +27,13 @@ public class GameService {
     }
 
     public GameModel getGame(int id) {
-        return games.get(id);
+        if (id < games.size())
+            return games.get(id);
+        return null;
+    }
+
+    public List<GameModel> getGames() {
+        return games;
     }
 
     public void startGame(int id) {
@@ -63,5 +70,18 @@ public class GameService {
     public void removePlayer(int id, int playerId) {
         GameModel game = games.get(id);
         game.getPlayers().removeIf(player -> player.getId() == playerId);
+    }
+
+    @PostConstruct
+    void init() {
+        createGame("Game 1", 5);
+        createGame("Game 2", 5);
+        createGame("Game 3", 5);
+        startGame(0);
+        startGame(1);
+        startGame(2);
+        games.get(0).getPlayers().add(new Player(0, "Player 1"));
+        games.get(1).getPlayers().add(new Player(0, "Player 1"));
+        games.get(2).getPlayers().add(new Player(0, "Player 1"));
     }
 }

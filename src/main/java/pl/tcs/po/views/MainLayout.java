@@ -1,7 +1,5 @@
 package pl.tcs.po.views;
 
-import pl.tcs.po.views.game.GameView;
-import pl.tcs.po.views.home.HomeView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.Footer;
@@ -13,6 +11,9 @@ import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+
+import pl.tcs.po.views.gameSelector.GameSelectorView;
+import pl.tcs.po.views.home.HomeView;
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -51,7 +52,7 @@ public class MainLayout extends AppLayout {
         SideNav nav = new SideNav();
 
         nav.addItem(new SideNavItem("Home", HomeView.class ));
-        nav.addItem(new SideNavItem("Game", GameView.class ));
+        nav.addItem(new SideNavItem("Select Game", GameSelectorView.class ));
 
         return nav;
     }
