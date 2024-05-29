@@ -3,6 +3,7 @@ package pl.tcs.po.views.game;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
@@ -10,6 +11,7 @@ import com.vaadin.flow.router.OptionalParameter;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
+import com.vaadin.flow.theme.lumo.LumoUtility.Margin.Horizontal;
 
 import jakarta.annotation.PostConstruct;
 import pl.tcs.po.model.GameModel;
@@ -57,8 +59,8 @@ public class GameView extends VerticalLayout implements HasUrlParameter<Integer>
 
             if (gameModel != null && gameModel.getCurrentQuestionModel() != null) {
                 question = gameModel.getCurrentQuestionModel();
-                VerticalLayout newQuestionLayout = new QuestionLayout(question);
-                this.replace(questionLayout, newQuestionLayout);
+                HorizontalLayout layout = new HorizontalLayout(new QuestionLayout(question), new PlayerListLayout(gameModel));
+                this.replace(questionLayout, layout);
             }
             else {
                 replace(questionLayout, errorLayout);
