@@ -80,8 +80,11 @@ public class GameService {
         startGame(0);
         startGame(1);
         startGame(2);
-        games.get(0).getPlayers().add(new Player(0, "Player 1"));
-        games.get(1).getPlayers().add(new Player(0, "Player 1"));
-        games.get(2).getPlayers().add(new Player(0, "Player 1"));
+        addPlayer(0, "Player 1");
+        addPlayer(0, "Player 2");
+        addPlayer(1, "Player 3");
+        addPlayer(1, "Player 4");
+        addPlayer(2, "Player 5");
+        addPlayer(2, "Player 6");
     }
 }

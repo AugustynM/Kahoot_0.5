@@ -60,6 +60,7 @@ public class GameView extends VerticalLayout implements HasUrlParameter<Integer>
             if (gameModel != null && gameModel.getCurrentQuestionModel() != null) {
                 question = gameModel.getCurrentQuestionModel();
                 HorizontalLayout layout = new HorizontalLayout(new QuestionLayout(question), new PlayerListLayout(gameModel));
+                layout.setWidthFull();
                 this.replace(questionLayout, layout);
             }
             else {
