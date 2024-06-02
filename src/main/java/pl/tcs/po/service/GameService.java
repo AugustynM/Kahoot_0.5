@@ -23,6 +23,7 @@ public class GameService {
         GameModel game = new GameModel(nextGameId, name, maxQuestions);
         nextGameId++;
         games.add(game);
+        GameListBroadcaster.broadcast(games);
         return game;
     }
 
