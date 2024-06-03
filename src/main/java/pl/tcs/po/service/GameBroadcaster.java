@@ -31,6 +31,9 @@ public class GameBroadcaster {
     }
 
     public static synchronized void broadcast(GameModel game) {
+        if (!listeners.containsKey(game)) {
+            return;
+        }
         for (Consumer<GameModel> listener : listeners.get(game)) {
             executor.execute(() -> listener.accept(game));
         }
