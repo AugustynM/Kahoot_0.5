@@ -24,6 +24,7 @@ public class GameModel {
     QuestionModel currentQuestionModel = null;
 
     final int timeLimit;
+    long nextQuestionTimeMillis = 0;
 
     final List<Player> players = new ArrayList<>();
     int nextPlayerId = 0;

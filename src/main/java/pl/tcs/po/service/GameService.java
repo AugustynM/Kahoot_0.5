@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.PostConstruct;
@@ -61,6 +62,7 @@ public class GameService {
             finishGame(id);
         } else {
             game.setCurrentQuestionModel(questionsClient.getQuestions().get(0));
+            game.setNextQuestionTimeMillis(System.currentTimeMillis() + game.getTimeLimit() * 1000);
             GameBroadcaster.broadcast(game);
         }
     }
@@ -76,6 +78,16 @@ public class GameService {
         GameModel game = games.get(id);
         game.getPlayers().removeIf(player -> player.getId() == playerId);
         GameBroadcaster.broadcast(game);
+    }
+
+    @Scheduled(fixedRate = 5000)
+    public void updateGames() {
+        long now = System.currentTimeMillis();
+        for (GameModel game : games) {
+            if (game.getStatus() == GameModel.GameStatus.IN_PROGRESS && now >= game.getNextQuestionTimeMillis()) {
+                nextQuestion(game.getId());
+            }
+        }
     }
 
     @PostConstruct
