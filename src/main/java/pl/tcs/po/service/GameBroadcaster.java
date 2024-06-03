@@ -14,27 +14,32 @@ import pl.tcs.po.model.GameModel;
 
 public class GameBroadcaster {
 
-    static Map<GameModel, List<Consumer<GameModel>>> listeners = new HashMap<>();
+    static Map<Integer, List<Consumer<GameModel>>> listeners = new HashMap<>();
 
     static Executor executor = Executors.newSingleThreadExecutor();
 
-    public static synchronized Registration register(Consumer<GameModel> listener, GameModel game) {
-        if (!listeners.containsKey(game)) {
-            listeners.put(game, new LinkedList<>());
+    public static synchronized Registration register(Consumer<GameModel> listener, Integer gameId) {
+        if (gameId == null) {
+            return () -> {
+            };
         }
-        listeners.get(game).add(listener);
+        if (!listeners.containsKey(gameId)) {
+            listeners.put(gameId, new LinkedList<>());
+        }
+        listeners.get(gameId).add(listener);
         return () -> {
             synchronized (GameListBroadcaster.class) {
-                listeners.get(game).remove(listener);
+                listeners.get(gameId).remove(listener);
             }
         };
     }
 
     public static synchronized void broadcast(GameModel game) {
-        if (!listeners.containsKey(game)) {
+        Integer gameId = game.getId();
+        if (!listeners.containsKey(gameId)) {
             return;
         }
-        for (Consumer<GameModel> listener : listeners.get(game)) {
+        for (Consumer<GameModel> listener : listeners.get(gameId)) {
             executor.execute(() -> listener.accept(game));
         }
     }

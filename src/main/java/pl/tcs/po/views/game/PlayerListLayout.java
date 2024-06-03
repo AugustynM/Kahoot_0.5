@@ -17,4 +17,15 @@ public class PlayerListLayout extends VerticalLayout {
         add(grid);
     }
 
+    void update(GameModel gameModel) {
+        getUI().ifPresent(ui -> ui.access(() -> {
+            Grid<Player> grid = new Grid<>(Player.class);
+            grid.setItems(gameModel.getPlayers());
+            grid.setColumns("name", "score");
+            grid.setWidthFull();
+            removeAll();
+            add(grid);
+        }));
+    }
+
 }
