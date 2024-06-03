@@ -7,11 +7,8 @@ import com.vaadin.flow.component.html.RangeInput;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.renderer.NumberRenderer;
-import com.vaadin.flow.data.validator.IntegerRangeValidator;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
@@ -20,6 +17,7 @@ import jakarta.annotation.PostConstruct;
 import pl.tcs.po.model.GameModel;
 import pl.tcs.po.service.GameService;
 import pl.tcs.po.views.MainLayout;
+import pl.tcs.po.views.game.GameView;
 
 @PageTitle("Kahoot v 0.5")
 @Route(value = "/gameCreator", layout = MainLayout.class)
@@ -77,8 +75,8 @@ public class GameCreatorView extends VerticalLayout {
             GameModel game = gameService.createGame(gameNameField.getValue(), maxQuestionsField.getValue().intValue(),
                     (int) timeLimitField.getValue().intValue());
             Notification.show("Game " + gameNameField.getValue() + " created");
-            // createGameButton.getUI().ifPresent(ui -> ui.navigate(GameView.class,
-            // game.getId()));
+            createGameButton.getUI().ifPresent(ui -> ui.navigate(GameView.class,
+                    game.getId()));
         });
 
         layout.add("Create Game");
