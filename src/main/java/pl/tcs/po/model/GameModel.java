@@ -23,6 +23,8 @@ public class GameModel {
     int currentQuestion = 0;
     QuestionModel currentQuestionModel = null;
 
+    final int timeLimit;
+
     final List<Player> players = new ArrayList<>();
     int nextPlayerId = 0;
 }

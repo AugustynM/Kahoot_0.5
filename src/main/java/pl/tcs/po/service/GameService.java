@@ -19,8 +19,8 @@ public class GameService {
     private final List<GameModel> games = new ArrayList<>();
     private int nextGameId = 0;
 
-    public GameModel createGame(String name, int maxQuestions) {
-        GameModel game = new GameModel(nextGameId, name, maxQuestions);
+    public GameModel createGame(String name, int maxQuestions, int timeLimit) {
+        GameModel game = new GameModel(nextGameId, name, maxQuestions, timeLimit);
         nextGameId++;
         games.add(game);
         GameListBroadcaster.broadcast(games);
@@ -75,9 +75,9 @@ public class GameService {
 
     @PostConstruct
     void init() {
-        createGame("Game 1", 5);
-        createGame("Game 2", 5);
-        createGame("Game 3", 5);
+        createGame("Game 1", 5, 10);
+        createGame("Game 2", 5, 10);
+        createGame("Game 3", 5, 10);
         startGame(0);
         startGame(1);
         startGame(2);
