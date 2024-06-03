@@ -41,16 +41,18 @@ public class GameService {
         GameModel game = games.get(id);
         game.setStatus(GameModel.GameStatus.IN_PROGRESS);
         game.setCurrentQuestionModel(questionsClient.getQuestions().get(0));
+        GameBroadcaster.broadcast(game);
     }
 
     public void finishGame(int id) {
         GameModel game = games.get(id);
         game.setStatus(GameModel.GameStatus.FINISHED);
+        GameBroadcaster.broadcast(game);
     }
 
-    public void removeGame(int id) {
-        games.remove(id);
-    }
+    // public void removeGame(int id) {
+    // games.remove(id);
+    // }
 
     public void nextQuestion(int id) {
         GameModel game = games.get(id);
@@ -59,6 +61,7 @@ public class GameService {
             finishGame(id);
         } else {
             game.setCurrentQuestionModel(questionsClient.getQuestions().get(0));
+            GameBroadcaster.broadcast(game);
         }
     }
 
@@ -66,11 +69,13 @@ public class GameService {
         GameModel game = games.get(id);
         game.getPlayers().add(new Player(game.getNextPlayerId(), name));
         game.setNextPlayerId(game.getNextPlayerId() + 1);
+        GameBroadcaster.broadcast(game);
     }
 
     public void removePlayer(int id, int playerId) {
         GameModel game = games.get(id);
         game.getPlayers().removeIf(player -> player.getId() == playerId);
+        GameBroadcaster.broadcast(game);
     }
 
     @PostConstruct
