@@ -29,6 +29,7 @@ public class GameView extends VerticalLayout implements HasUrlParameter<Integer>
     private int gameId;
 
     GamePlayersContainerLayout gamePlayersContainerLayout = null;
+    GameStatusLayout gameStatusLayout = null;
 
     Registration gameBroadcasterRegistration;
 
@@ -60,6 +61,9 @@ public class GameView extends VerticalLayout implements HasUrlParameter<Integer>
         if (gameModel == null) {
             gameModel = g;
             if (gameModel != null) {
+                gameStatusLayout = new GameStatusLayout(gameModel, gameService);
+                add(gameStatusLayout);
+
                 question = gameModel.getCurrentQuestionModel();
                 gamePlayersContainerLayout = new GamePlayersContainerLayout(question, gameModel);
                 gamePlayersContainerLayout.setWidthFull();
@@ -71,8 +75,10 @@ public class GameView extends VerticalLayout implements HasUrlParameter<Integer>
             if (gameModel != null) {
                 question = gameModel.getCurrentQuestionModel();
                 gamePlayersContainerLayout.update(question, gameModel);
+                gameStatusLayout.update(gameModel);
             } else {
                 remove(gamePlayersContainerLayout);
+                remove(gameStatusLayout);
             }
         }
     }
