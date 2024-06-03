@@ -1,7 +1,5 @@
 package pl.tcs.po.views.game;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
@@ -11,7 +9,6 @@ import pl.tcs.po.service.GameService;
 public class GameStatusLayout extends HorizontalLayout {
     GameModel gameModel;
 
-    // @Autowired
     GameService gameService;
 
     public GameStatusLayout(GameModel gameModel, GameService gameService) {

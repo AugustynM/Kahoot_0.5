@@ -51,10 +51,6 @@ public class GameService {
         GameBroadcaster.broadcast(game);
     }
 
-    // public void removeGame(int id) {
-    // games.remove(id);
-    // }
-
     public void nextQuestion(int id) {
         GameModel game = games.get(id);
         game.setCurrentQuestion(game.getCurrentQuestion() + 1);

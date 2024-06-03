@@ -74,7 +74,6 @@ public class GameCreatorView extends VerticalLayout {
             }
             GameModel game = gameService.createGame(gameNameField.getValue(), maxQuestionsField.getValue().intValue(),
                     (int) timeLimitField.getValue().intValue());
-            Notification.show("Game " + gameNameField.getValue() + " created");
             createGameButton.getUI().ifPresent(ui -> ui.navigate(GameView.class,
                     game.getId()));
         });
