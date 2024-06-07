@@ -59,6 +59,9 @@ public class GameService {
         } else {
             game.setCurrentQuestionModel(questionsClient.getQuestions().get(0));
             game.setNextQuestionTimeMillis(System.currentTimeMillis() + game.getTimeLimit() * 1000);
+            for (Player player : game.getPlayers()) {
+                player.setAnswered(false);
+            }
             GameBroadcaster.broadcast(game);
         }
     }
@@ -75,6 +78,19 @@ public class GameService {
     public void removePlayer(int id, int playerId) {
         GameModel game = games.get(id);
         game.getPlayers().removeIf(player -> player.getId() == playerId);
+        GameBroadcaster.broadcast(game);
+    }
+
+    public void answer(int id, int playerId, boolean isCorrect) {
+        GameModel game = games.get(id);
+        Player player = game.getPlayers().get(playerId);
+        if (player.isAnswered()) {
+            return;
+        }
+        player.setAnswered(true);
+        if (isCorrect) {
+            game.getPlayers().get(playerId).setScore(game.getPlayers().get(playerId).getScore() + 1);
+        }
         GameBroadcaster.broadcast(game);
     }
 
