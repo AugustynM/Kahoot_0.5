@@ -63,11 +63,13 @@ public class GameService {
         }
     }
 
-    public void addPlayer(int id, String name) {
+    public Player addPlayer(int id, String name) {
         GameModel game = games.get(id);
-        game.getPlayers().add(new Player(game.getNextPlayerId(), name));
+        Player player = new Player(game.getNextPlayerId(), name);
+        game.getPlayers().add(player);
         game.setNextPlayerId(game.getNextPlayerId() + 1);
         GameBroadcaster.broadcast(game);
+        return player;
     }
 
     public void removePlayer(int id, int playerId) {

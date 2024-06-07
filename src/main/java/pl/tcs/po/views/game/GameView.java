@@ -16,6 +16,7 @@ import com.vaadin.flow.shared.Registration;
 
 import jakarta.annotation.PostConstruct;
 import pl.tcs.po.model.GameModel;
+import pl.tcs.po.model.Player;
 import pl.tcs.po.model.QuestionModel;
 import pl.tcs.po.service.GameBroadcaster;
 import pl.tcs.po.service.GameService;
@@ -35,6 +36,7 @@ public class GameView extends VerticalLayout implements HasUrlParameter<Integer>
 
     private QuestionModel question;
     private GameModel gameModel = null;
+    private Player player = null;
 
     @Autowired
     private GameService gameService;
@@ -57,11 +59,17 @@ public class GameView extends VerticalLayout implements HasUrlParameter<Integer>
         }
     }
 
+    void joinGame(String name) {
+        if (gameModel != null) {
+            player = gameService.addPlayer(gameId, name);
+        }
+    }
+
     private void refresh(GameModel g) {
         if (gameModel == null) {
             gameModel = g;
             if (gameModel != null) {
-                gameStatusLayout = new GameStatusLayout(gameModel, gameService);
+                gameStatusLayout = new GameStatusLayout(gameModel, gameService, player);
                 add(gameStatusLayout);
 
                 question = gameModel.getCurrentQuestionModel();
@@ -75,7 +83,7 @@ public class GameView extends VerticalLayout implements HasUrlParameter<Integer>
             if (gameModel != null) {
                 question = gameModel.getCurrentQuestionModel();
                 gamePlayersContainerLayout.update(question, gameModel);
-                gameStatusLayout.update(gameModel);
+                gameStatusLayout.update(gameModel, player);
             } else {
                 remove(gamePlayersContainerLayout);
                 remove(gameStatusLayout);
