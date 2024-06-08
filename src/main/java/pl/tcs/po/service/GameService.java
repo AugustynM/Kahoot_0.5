@@ -106,17 +106,5 @@ public class GameService {
 
     @PostConstruct
     void init() {
-        createGame("Game 1", 5, 10);
-        createGame("Game 2", 5, 10);
-        createGame("Game 3", 5, 10);
-        startGame(0);
-        startGame(1);
-        startGame(2);
-        addPlayer(0, "Player 1");
-        addPlayer(0, "Player 2");
-        addPlayer(1, "Player 3");
-        addPlayer(1, "Player 4");
-        addPlayer(2, "Player 5");
-        addPlayer(2, "Player 6");
     }
 }
