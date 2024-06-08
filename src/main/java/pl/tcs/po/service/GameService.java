@@ -83,8 +83,8 @@ public class GameService {
 
     public void answer(int id, int playerId, boolean isCorrect) {
         GameModel game = games.get(id);
-        Player player = game.getPlayers().get(playerId);
-        if (player.isAnswered()) {
+        Player player = game.getPlayer(playerId);
+        if (player == null || player.isAnswered()) {
             return;
         }
         player.setAnswered(true);

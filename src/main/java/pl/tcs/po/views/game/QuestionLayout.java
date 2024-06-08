@@ -57,9 +57,6 @@ public class QuestionLayout extends VerticalLayout {
     }
 
     void createQuestionGUI() {
-        questionGroup.setLabel(question.getQuestion());
-        add(questionGroup, submitButton);
-
         Answers answers = question.getAnswers();
         List<String> answerLabels = new ArrayList<>();
         if (answers.getAnswerA() != null)
@@ -106,6 +103,9 @@ public class QuestionLayout extends VerticalLayout {
         });
         submitButton.setEnabled(player != null && !player.isAnswered());
         submitButton.addClickShortcut(Key.ENTER);
+
+        questionGroup.setLabel(question.getQuestion());
+        add(questionGroup, submitButton);
 
     }
 

@@ -27,6 +27,7 @@ import pl.tcs.po.views.MainLayout;
 public class GameView extends VerticalLayout implements HasUrlParameter<Integer> {
 
     private int gameId;
+    private int playerId = -1;
 
     GamePlayersContainerLayout gamePlayersContainerLayout = null;
     GameStatusLayout gameStatusLayout = null;
@@ -60,6 +61,7 @@ public class GameView extends VerticalLayout implements HasUrlParameter<Integer>
     void joinGame(String name) {
         if (gameModel != null) {
             player = gameService.addPlayer(gameId, name);
+            playerId = player.getId();
         }
     }
 
@@ -67,6 +69,7 @@ public class GameView extends VerticalLayout implements HasUrlParameter<Integer>
         if (gameModel == null) {
             gameModel = g;
             if (gameModel != null) {
+                player = gameModel.getPlayer(playerId);
                 gameStatusLayout = new GameStatusLayout(gameModel, gameService, player);
                 add(gameStatusLayout);
 
@@ -74,13 +77,16 @@ public class GameView extends VerticalLayout implements HasUrlParameter<Integer>
                 gamePlayersContainerLayout.setWidthFull();
                 add(gamePlayersContainerLayout);
             } else {
+                player = null;
             }
         } else {
             gameModel = g;
+            player = gameModel.getPlayer(playerId);
             if (gameModel != null) {
                 gamePlayersContainerLayout.update(gameModel, player);
                 gameStatusLayout.update(gameModel, player);
             } else {
+                player = null;
                 remove(gamePlayersContainerLayout);
                 remove(gameStatusLayout);
             }

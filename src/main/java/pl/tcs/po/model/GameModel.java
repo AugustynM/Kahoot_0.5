@@ -28,4 +28,13 @@ public class GameModel {
 
     final List<Player> players = new ArrayList<>();
     int nextPlayerId = 0;
+
+    public Player getPlayer(int id) {
+        for (Player p : players) {
+            if (p.getId() == id) {
+                return p;
+            }
+        }
+        return null;
+    }
 }
