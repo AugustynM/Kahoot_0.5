@@ -9,4 +9,5 @@ public class Player {
     final int id;
     final String name;
     int score;
+    boolean answered = false;
 }

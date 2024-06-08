@@ -16,7 +16,7 @@ import com.vaadin.flow.shared.Registration;
 
 import jakarta.annotation.PostConstruct;
 import pl.tcs.po.model.GameModel;
-import pl.tcs.po.model.QuestionModel;
+import pl.tcs.po.model.Player;
 import pl.tcs.po.service.GameBroadcaster;
 import pl.tcs.po.service.GameService;
 import pl.tcs.po.views.MainLayout;
@@ -27,14 +27,15 @@ import pl.tcs.po.views.MainLayout;
 public class GameView extends VerticalLayout implements HasUrlParameter<Integer> {
 
     private int gameId;
+    private int playerId = -1;
 
     GamePlayersContainerLayout gamePlayersContainerLayout = null;
     GameStatusLayout gameStatusLayout = null;
 
     Registration gameBroadcasterRegistration;
 
-    private QuestionModel question;
     private GameModel gameModel = null;
+    private Player player = null;
 
     @Autowired
     private GameService gameService;
@@ -57,26 +58,35 @@ public class GameView extends VerticalLayout implements HasUrlParameter<Integer>
         }
     }
 
+    void joinGame(String name) {
+        if (gameModel != null) {
+            player = gameService.addPlayer(gameId, name);
+            playerId = player.getId();
+        }
+    }
+
     private void refresh(GameModel g) {
         if (gameModel == null) {
             gameModel = g;
             if (gameModel != null) {
-                gameStatusLayout = new GameStatusLayout(gameModel, gameService);
+                player = gameModel.getPlayer(playerId);
+                gameStatusLayout = new GameStatusLayout(gameModel, gameService, player);
                 add(gameStatusLayout);
 
-                question = gameModel.getCurrentQuestionModel();
-                gamePlayersContainerLayout = new GamePlayersContainerLayout(question, gameModel);
+                gamePlayersContainerLayout = new GamePlayersContainerLayout(gameModel, player, gameService);
                 gamePlayersContainerLayout.setWidthFull();
                 add(gamePlayersContainerLayout);
             } else {
+                player = null;
             }
         } else {
             gameModel = g;
+            player = gameModel.getPlayer(playerId);
             if (gameModel != null) {
-                question = gameModel.getCurrentQuestionModel();
-                gamePlayersContainerLayout.update(question, gameModel);
-                gameStatusLayout.update(gameModel);
+                gamePlayersContainerLayout.update(gameModel, player);
+                gameStatusLayout.update(gameModel, player);
             } else {
+                player = null;
                 remove(gamePlayersContainerLayout);
                 remove(gameStatusLayout);
             }

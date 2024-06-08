@@ -59,20 +59,38 @@ public class GameService {
         } else {
             game.setCurrentQuestionModel(questionsClient.getQuestions().get(0));
             game.setNextQuestionTimeMillis(System.currentTimeMillis() + game.getTimeLimit() * 1000);
+            for (Player player : game.getPlayers()) {
+                player.setAnswered(false);
+            }
             GameBroadcaster.broadcast(game);
         }
     }
 
-    public void addPlayer(int id, String name) {
+    public Player addPlayer(int id, String name) {
         GameModel game = games.get(id);
-        game.getPlayers().add(new Player(game.getNextPlayerId(), name));
+        Player player = new Player(game.getNextPlayerId(), name);
+        game.getPlayers().add(player);
         game.setNextPlayerId(game.getNextPlayerId() + 1);
         GameBroadcaster.broadcast(game);
+        return player;
     }
 
     public void removePlayer(int id, int playerId) {
         GameModel game = games.get(id);
         game.getPlayers().removeIf(player -> player.getId() == playerId);
+        GameBroadcaster.broadcast(game);
+    }
+
+    public void answer(int id, int playerId, boolean isCorrect) {
+        GameModel game = games.get(id);
+        Player player = game.getPlayer(playerId);
+        if (player == null || player.isAnswered()) {
+            return;
+        }
+        player.setAnswered(true);
+        if (isCorrect) {
+            game.getPlayers().get(playerId).setScore(game.getPlayers().get(playerId).getScore() + 1);
+        }
         GameBroadcaster.broadcast(game);
     }
 
@@ -88,17 +106,5 @@ public class GameService {
 
     @PostConstruct
     void init() {
-        createGame("Game 1", 5, 10);
-        createGame("Game 2", 5, 10);
-        createGame("Game 3", 5, 10);
-        startGame(0);
-        startGame(1);
-        startGame(2);
-        addPlayer(0, "Player 1");
-        addPlayer(0, "Player 2");
-        addPlayer(1, "Player 3");
-        addPlayer(1, "Player 4");
-        addPlayer(2, "Player 5");
-        addPlayer(2, "Player 6");
     }
 }
