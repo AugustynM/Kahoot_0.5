@@ -11,7 +11,7 @@ public class GamePlayersContainerLayout extends HorizontalLayout {
     PlayerListLayout playerListLayout;
     GameService gameService;
 
-    public GamePlayersContainerLayout(GameModel gameModel, Player player) {
+    public GamePlayersContainerLayout(GameModel gameModel, Player player, GameService gameService) {
         questionLayout = new QuestionLayout(gameModel, player, gameService);
         playerListLayout = new PlayerListLayout(gameModel);
         add(questionLayout, playerListLayout);

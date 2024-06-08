@@ -70,7 +70,7 @@ public class GameView extends VerticalLayout implements HasUrlParameter<Integer>
                 gameStatusLayout = new GameStatusLayout(gameModel, gameService, player);
                 add(gameStatusLayout);
 
-                gamePlayersContainerLayout = new GamePlayersContainerLayout(gameModel, player);
+                gamePlayersContainerLayout = new GamePlayersContainerLayout(gameModel, player, gameService);
                 gamePlayersContainerLayout.setWidthFull();
                 add(gamePlayersContainerLayout);
             } else {
