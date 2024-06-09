@@ -77,7 +77,7 @@ public class GameStatusLayout extends HorizontalLayout {
             sb.append("Waiting");
         } else if (status == GameModel.GameStatus.IN_PROGRESS) {
             sb.append("In progress - question #");
-            sb.append(gameModel.getCurrentQuestion());
+            sb.append(gameModel.getCurrentQuestion() + 1);
             sb.append("/");
             sb.append(gameModel.getMaxQuestions());
         } else if (status == GameModel.GameStatus.FINISHED) {

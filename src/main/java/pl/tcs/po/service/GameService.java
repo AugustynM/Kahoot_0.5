@@ -42,6 +42,7 @@ public class GameService {
         GameModel game = games.get(id);
         game.setStatus(GameModel.GameStatus.IN_PROGRESS);
         game.setCurrentQuestionModel(questionsClient.getQuestions().get(0));
+        game.setNextQuestionTimeMillis(System.currentTimeMillis() + game.getTimeLimit() * 1000);
         GameBroadcaster.broadcast(game);
     }
 
